@@ -53,14 +53,15 @@ public class RobotContainer {
   private void configureBindings() {
     
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    driverController.a().onTrue(Commands.run(()-> 
+    driverController.a().and(Motor.getInstance().isTripped()).onTrue(Commands.run(()-> 
     Motor.getInstance().motor1.set(Constants.OperatorConstants.motorSpeed), Motor.getInstance())).onFalse(Commands.run(()-> 
     Motor.getInstance().motor1.set(0), Motor.getInstance()));
     
-    Motor.getInstance().isTripped().onTrue(Commands.run(()-> 
-    Motor.getInstance().motor1.set(Constants.OperatorConstants.motorSpeed), Motor.getInstance())).onFalse(Commands.run(()-> 
+    Motor.getInstance().isTripped().onFalse(Commands.run(()-> 
     Motor.getInstance().motor1.set(0), Motor.getInstance()));
   
+    driverController.b().onTrue(Commands.run(() -> Motor.getInstance().motor1.set(Constants.OperatorConstants.motorSpeed * -1),Motor.getInstance()))
+    .onFalse(Commands.run(() -> Motor.getInstance().motor1.set(0), Motor.getInstance()));
   }
 
   /**
